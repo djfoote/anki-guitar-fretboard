@@ -5,8 +5,6 @@ import uuid
 
 from anki import notes, storage
 
-import fretboard_utils
-
 
 class AnkiDeck:
     def __init__(self, deck_name, user_name, collection_path, media_path):
@@ -133,6 +131,6 @@ class FretboardCardGenerator(CardGenerator):
         answer = self.answer_fn(*args, **kwargs)
         print("=" * 100)
         print(question_text)
-        fretboard_utils.draw(fretboard)
+        fretboard.draw()
         print("-" * 50)
         print(answer)

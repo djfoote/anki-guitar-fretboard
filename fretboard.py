@@ -1,5 +1,6 @@
-from fretboardgtr import fretboard
+from fretboardgtr import exporters, fretboard
 from fretboardgtr.elements import notes, nut, strings
+from IPython import display
 
 # In getting this to look exactly how I wanted, I had to make a couple changes to the fretboardgtr library:
 # TODO: Clean these changes up and fork the library. Consider submitting a PR.
@@ -33,6 +34,15 @@ DEFAULT_CONFIG = fretboard.FretBoardConfig.from_dict(
 )
 
 DEFAULT_NOTE_COLOR = "rgb(183,64,50)"
+
+
+class IPythonExporter(exporters.PNGExporter):
+    def export(self, to):
+        super().export(to)
+        display.display(display.Image(filename=to))
+
+
+exporters.register_exporter(IPythonExporter, "DRAW")
 
 
 class FretBoard:
@@ -92,3 +102,6 @@ class FretBoard:
 
     def export(self, *args, **kwargs):
         self.fretboard.export(*args, **kwargs)
+
+    def draw(self, tmp_filepath="/tmp/fretboard.png"):
+        self.export(to=tmp_filepath, format="draw")
